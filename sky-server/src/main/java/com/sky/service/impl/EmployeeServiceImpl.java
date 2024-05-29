@@ -1,17 +1,21 @@
 package com.sky.service.impl;
 
 import com.fasterxml.jackson.databind.ser.Serializers;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.sky.constant.MessageConstant;
 import com.sky.constant.PasswordConstant;
 import com.sky.constant.StatusConstant;
 import com.sky.context.BaseContext;
 import com.sky.dto.EmployeeDTO;
 import com.sky.dto.EmployeeLoginDTO;
+import com.sky.dto.EmployeePageQueryDTO;
 import com.sky.entity.Employee;
 import com.sky.exception.AccountLockedException;
 import com.sky.exception.AccountNotFoundException;
 import com.sky.exception.PasswordErrorException;
 import com.sky.mapper.EmployeeMapper;
+import com.sky.result.PageResult;
 import com.sky.service.EmployeeService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +24,7 @@ import org.springframework.util.DigestUtils;
 import org.w3.x2000.x09.xmldsig.DigestMethodType;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
@@ -92,6 +97,25 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 
 
+    }
+
+    /**
+     * 员工分页查询
+     *
+     * @param employeePageQueryDTO
+     * @return
+     */
+    public PageResult pageQuery(EmployeePageQueryDTO employeePageQueryDTO) {
+        //开始分页查询
+        //使用插件PageHelper只需要传入参数查询的页码和页面大小即可
+        PageHelper.startPage(employeePageQueryDTO.getPage(),employeePageQueryDTO.getPageSize());
+        Page<Employee> pages =  employeeMapper.pageQuery(employeePageQueryDTO);
+
+
+        long total = pages.getTotal();
+        List<Employee> recordes = pages.getResult();
+
+        return new PageResult(total,recordes);
     }
 
 }
