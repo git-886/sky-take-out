@@ -40,5 +40,7 @@ public interface EmployeeMapper {
      * 员工数据更新
      * @param employee
      */
-    void update(Employee.EmployeeBuilder employee);
+    void update(Employee employee);
+
+    Employee getById(Long id);
 }

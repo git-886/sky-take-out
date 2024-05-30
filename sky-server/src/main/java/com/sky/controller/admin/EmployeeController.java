@@ -100,11 +100,34 @@ public class EmployeeController {
     }
 
 
+    //员工账号禁用功能
     @PostMapping("/status/{status}")
     @ApiOperation("员工账号禁用管理")
     public Result startOrStop(@PathVariable Integer status,Long id)
     {
         employeeService.startOrStop(status,id);
+        return Result.success();
+    }
+
+    //修改员工消息-回显
+    @GetMapping("/{id}")
+    @ApiOperation("修改员工消息-回显")
+    public Result<Employee> getById(@PathVariable long id)
+    {
+        Employee employee = employeeService.getById(id);
+        return Result.success(employee);
+    }
+
+    /**
+     * 修改员工消息-修改
+     * @return
+     */
+    @PutMapping
+    @ApiOperation("修改员工消息-修改")
+    public Result update(@RequestBody EmployeeDTO employeeDTO)
+    {
+        employeeService.update(employeeDTO);
+
         return Result.success();
     }
 
