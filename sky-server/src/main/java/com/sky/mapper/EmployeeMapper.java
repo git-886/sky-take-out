@@ -35,4 +35,10 @@ public interface EmployeeMapper {
      * @return
      */
     Page<Employee> pageQuery(EmployeePageQueryDTO employeePageQueryDTO);
+
+    /**
+     * 员工数据更新
+     * @param employee
+     */
+    void update(Employee.EmployeeBuilder employee);
 }

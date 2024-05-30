@@ -17,6 +17,7 @@ import com.sky.exception.PasswordErrorException;
 import com.sky.mapper.EmployeeMapper;
 import com.sky.result.PageResult;
 import com.sky.service.EmployeeService;
+import org.apache.ibatis.annotations.Mapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -116,6 +117,19 @@ public class EmployeeServiceImpl implements EmployeeService {
         List<Employee> recordes = pages.getResult();
 
         return new PageResult(total,recordes);
+    }
+
+    /**
+     * 员工账号禁用管理
+     * @param status
+     * @param id
+     */
+    public void startOrStop(Integer status, Long id) {
+        Employee.EmployeeBuilder employee = Employee.builder()
+                .id(id)
+                .status(status);
+        employeeMapper.update(employee);
+
     }
 
 }
